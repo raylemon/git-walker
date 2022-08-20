@@ -17,10 +17,9 @@ class Gui(Tk):
         self.target_id = None
         self.current_index = IntVar()
 
-        self.columnconfigure("all", weight=1)
-        self.rowconfigure("all", weight=1)
+        self.style = Style(self)
 
-        Label(self, text="Git Walker", font=("", 14), anchor=CENTER).pack()
+        Label(self, text="Git Walker", style="Heading.TLabel", anchor=CENTER).pack()
 
         Button(self, textvariable=self.git_path, command=lambda: self.select_path()).pack(anchor=CENTER, expand=True,
                                                                                           fill=X)
@@ -28,21 +27,26 @@ class Gui(Tk):
         fr = Frame(self)
         fr.pack(anchor=CENTER, expand=True, fill=X)
 
-        self.b_first = Button(fr, text="First", command=lambda: self.first(), state=DISABLED)
+        self.b_first = Button(fr, text="First", command=lambda: self.first(), state=DISABLED, style="Walk.TButton")
         self.b_first.grid(row=0, column=0, sticky=NSEW)
 
-        self.b_prev = Button(fr, text="Previous", command=lambda: self.previous(), state=DISABLED)
+        self.b_prev = Button(fr, text="Previous", command=lambda: self.previous(), state=DISABLED, style="Walk.TButton")
         self.b_prev.grid(row=0, column=1, sticky=NSEW)
 
-        self.b_next = Button(fr, text="Next", command=lambda: self.next(), state=DISABLED)
+        self.b_next = Button(fr, text="Next", command=lambda: self.next(), state=DISABLED, style="Walk.TButton")
         self.b_next.grid(row=0, column=2, sticky=NSEW)
 
-        self.b_last = Button(fr, text="Last", command=lambda: self.last(), state=DISABLED)
+        self.b_last = Button(fr, text="Last", command=lambda: self.last(), state=DISABLED, style="Walk.TButton")
         self.b_last.grid(row=0, column=3, sticky=NSEW)
 
         Label(self, textvariable=self.actual_id).pack()
 
         self.configure_columns(fr)
+        self.stylize()
+
+    def stylize(self):
+        self.style.configure("Heading.TLabel", font=("Helvetica", 20))
+        self.style.configure("TLabel", font=("Helvetica", 12))
 
     @staticmethod
     def configure_columns(*frames: Frame):
